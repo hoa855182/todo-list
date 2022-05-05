@@ -1,13 +1,13 @@
 import { React, Component } from 'react';
-import todoApi from '../../apis/todoApi';
+
 import '../Form/form.scss'
-import App from '../../App';
+
 
 class Form extends Component {
     constructor(props) {
         super(props);
-        this.handleSaveTodo = this.handleSaveTodo.bind(this);
     }
+    
     state = {
         id: undefined,
         status: 1,
@@ -21,25 +21,12 @@ class Form extends Component {
         })
     }
 
-    handleSaveTodo(todo) {
-        let oldTodo = this.state.todo;
-        todo = { ...this.initTodo };
-
-        if (oldTodo.id === undefined) {
-            todo = { ...this.initTodo };
-        }
-        else if (oldTodo.status !== todo.status) {
-            todo = { ...this.initTodo }
-        }
-        this.renderData(todo);
-    }
-
+    
     handleChangeFormToSave() {
         this.setState({
             id: undefined,
             status: 1,
             name: '',
-
         });
     }
 
@@ -52,23 +39,27 @@ class Form extends Component {
                 name: this.props.todo.name,
                 status: this.props.todo.status,
             });
+           
         }
     }
+
     render() {
         return (
             <div className='todo-form'>
                 {this.state.id && (
                     <button
                         className='edit-tag'
-                        onClick={() => this.handleChangeFormtoSave()}
-                    >
-                        EDIT: {this.props.todo.name}
+                        onClick={() => this.handleChangeFormToSave()}
+                    >   
+                        EDIT: {this.state.name}
                     </button>
                 )}
                 
-                <form onSubmit={(e) => {
+                <form 
+                    onSubmit={(e) => {
                     e.preventDefault();
                     this.props.handleSaveTodo(this.state);
+                    
                 }}>
                     <input
                         type='text'

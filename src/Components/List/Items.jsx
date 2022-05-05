@@ -7,39 +7,46 @@ class Items extends Component {
         super(props);
     }
 
-    state = {  
-        
+    state = {
+       
     }
+
     render() { 
         const { todo } = this.props;
         return (
             <li className='todo-item'>
                 <div className='todo-content'>{todo.name}</div>
-                
+                <div
+                    className={`todo-status ${status.getClass(
+                        todo.status
+                    )}`}
+                    onClick={(e) => {
+                        this.props.handleShowContextMenu(e, todo);
+                    }}
+                >
+                    {status.getDisplayName(todo.status)}
+
+                   
+                </div>
                 <div className='todo-action'>
                     <button 
                         className='todo-edit'
-                        onClick={(e) => {
+                        onClick={() => {
                             this.props.handlePrepareEdit(todo);
                         }}
                         >Edit
                     </button>
                     <button
                         className='todo-delete'
-                        onClick={(e) => {
+                        onClick={() => {
                             this.props.handleDelete(todo.id);
                         }}
                     >Delete
                     </button>
                 </div>
-                <div
-                    className={`status-context-cover ${this.state.visibility}`}
-                    onClick={() => {
-                        this.handleCloseContextMenu();
-                    }}
-                ></div>
-               
+                
             </li>
+            
         );
     }
 }

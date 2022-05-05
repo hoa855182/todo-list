@@ -12,7 +12,7 @@ class App extends Component {
     this.handleSaveTodo = this.handleSaveTodo.bind(this);
     this.handlePrepareEdit = this.handlePrepareEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleShowContextMenu = this.handleShowContextMenu.bind(this);
+    
   }
 
   initTodo = { 
@@ -24,6 +24,7 @@ class App extends Component {
   state = {
     todos: [this.initTodo],
     todo: this.initTodo,
+    
   };
 
   renderData() {
@@ -36,18 +37,30 @@ class App extends Component {
 
   componentDidMount() {
     this.renderData();
-    
   }
 
 
   //----------------------save----------------------------//
 
   handleSaveTodo(todo){
-    todoApi.SAVE({...todo, status: todo.status ?? 1});
+    // let oldTodo = this.state.todo;
 
-    this.renderData({...this.initTodo});
+    todoApi.SAVE({ ...todo, status: todo.status ?? 1 });
+    
+    // if (oldTodo.id === undefined) {
+    //   todo = { ...this.initTodo };
+    // } else if (oldTodo.status !== todo.status) {
+    //   todo = { ...this.initTodo };
+    // }
+    // console.log(todo)
+    // localStorage.setItem('jobs', todo)
+     
+
+    
+    
+    this.renderData();
   }
-
+ 
   //----------------------Edit----------------------------//
 
   handlePrepareEdit(todo){
@@ -55,6 +68,8 @@ class App extends Component {
       ...this.state,
       todo: todo,
     })
+    // this.renderData();
+    
   }
 
   //----------------------Delete----------------------------//
@@ -62,23 +77,12 @@ class App extends Component {
   handleDelete(id) {
     todoApi.DELETE(id);
     this.renderData();
-    
   }
 
-  handleShowContextMenu(e, todo) {
-    this.setState({
-      top: e.clientY,
-      left: e.clientX,
-      visibility: 'visible',
-      todo: {
-        ...this.state.todo,
-        ...todo,
-      },
-    });
-  }
+
 
   render() {
-    // console.log(this.state)
+ 
     return (
       <div className='App'>
         <div className='title'>
@@ -86,7 +90,7 @@ class App extends Component {
         </div>
         <div className='todo-list'>
           <Form 
-            todo = {this.state.todo}  
+            todo = {this.state.todo} 
             handleSaveTodo={this.handleSaveTodo}
             check = {Math.random()} 
           />
